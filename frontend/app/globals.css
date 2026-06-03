@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── CSS Custom Properties ──────────────────────────────────────── */
+:root {
+  --sand:       #F5EFE4;
+  --sand-dark:  #EAE0CF;
+  --ink:        #1A1610;
+  --ink-light:  #4A4236;
+  --gold:       #C4953A;
+  --gold-light: #E8C97A;
+  --white:      #FDFAF6;
+  --accent:     #8B3A2A;
+}
+
+/* ── Base ───────────────────────────────────────────────────────── */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-cream text-ink font-body antialiased;
+    font-feature-settings: 'kern' 1, 'liga' 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background-color: #C4953A30;
+    color: #1A1610;
+  }
+}
+
+/* ── Components ─────────────────────────────────────────────────── */
+@layer components {
+
+  /* Buttons */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2
+           bg-gold text-cream font-body font-medium
+           px-7 py-3 text-sm tracking-wide
+           transition-all duration-200
+           hover:bg-ink hover:text-cream
+           active:scale-[0.98] cursor-pointer
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2
+           border border-ink text-ink font-body font-medium
+           px-7 py-3 text-sm tracking-wide
+           transition-all duration-200
+           hover:bg-ink hover:text-cream
+           active:scale-[0.98] cursor-pointer
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2
+           text-ink-light font-body text-sm tracking-wide
+           transition-all duration-150
+           hover:text-ink cursor-pointer;
+  }
+
+  /* Cards */
+  .card {
+    @apply bg-cream border border-sand-dark overflow-hidden
+           transition-shadow duration-300
+           hover:shadow-[0_8px_32px_rgba(26,22,16,0.10)];
+  }
+
+  /* Product card */
+  .product-card {
+    @apply group relative bg-cream overflow-hidden cursor-pointer
+           border border-sand-dark
+           transition-all duration-300
+           hover:shadow-[0_12px_40px_rgba(26,22,16,0.12)]
+           hover:-translate-y-0.5;
+  }
+
+  /* Section headings */
+  .section-label {
+    @apply text-xs font-body font-medium tracking-[0.25em] uppercase text-gold;
+  }
+
+  .section-heading {
+    @apply font-display text-3xl md:text-4xl lg:text-5xl text-ink leading-tight;
+  }
+
+  /* Inputs */
+  .input {
+    @apply w-full bg-transparent border border-sand-dark
+           px-4 py-3 text-sm font-body text-ink
+           placeholder:text-ink-light/50
+           focus:outline-none focus:border-gold
+           transition-colors duration-200;
+  }
+
+  .select {
+    @apply w-full bg-cream border border-sand-dark
+           px-4 py-3 text-sm font-body text-ink
+           focus:outline-none focus:border-gold
+           transition-colors duration-200 cursor-pointer appearance-none;
+  }
+
+  /* Skeleton */
+  .skeleton {
+    @apply bg-gradient-to-r from-sand-dark via-sand to-sand-dark
+           bg-[length:200%_100%] animate-shimmer rounded-none;
+  }
+
+  /* Brand badge */
+  .brand-badge {
+    @apply inline-block text-[10px] font-body font-medium
+           tracking-[0.15em] uppercase
+           px-2 py-0.5 border border-gold/40 text-gold;
+  }
+
+  /* Divider */
+  .divider {
+    @apply w-10 h-px bg-gold my-4;
+  }
+}
+
+/* ── Utilities ──────────────────────────────────────────────────── */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Thin scrollbar */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: var(--sand);
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: var(--gold);
+    border-radius: 2px;
+  }
+
+  /* Fade-in for page elements */
+  .animate-fade-up {
+    animation: fadeUp 0.5s ease-out forwards;
+    opacity: 0;
+  }
+}
+
+/* ── Marquee ─────────────────────────────────────────────────────── */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* ── Page transition overlay ─────────────────────────────────────── */
+.page-enter {
+  animation: fadeUp 0.35s ease-out forwards;
+  opacity: 0;
+}
