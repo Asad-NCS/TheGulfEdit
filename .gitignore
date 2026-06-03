@@ -1,0 +1,9 @@
+# Root-level gitignore
+node_modules/
+.env
+.env.local
+*.log
+.DS_Store
+.next/
+dist/
+build/
