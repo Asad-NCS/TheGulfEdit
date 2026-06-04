@@ -3,8 +3,6 @@
 import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-
 export default function AdminContacts() {
   const [messages, setMessages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -12,7 +10,7 @@ export default function AdminContacts() {
   const fetchMessages = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API}/api/contact`);
+      const res = await fetch(`/api/contact`);
       const data = await res.json();
       if (data.success) setMessages(data.data);
     } catch (err) {
@@ -28,7 +26,7 @@ export default function AdminContacts() {
 
   const markRead = async (id: string, read: boolean) => {
     try {
-      const res = await fetch(`${API}/api/admin/contact/${id}`, {
+      const res = await fetch(`/api/admin/contact/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ read })

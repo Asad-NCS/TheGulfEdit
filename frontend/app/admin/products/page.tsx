@@ -5,8 +5,6 @@ import Image from 'next/image';
 import { Plus, Edit2, Trash2, Search, X } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-
 export default function AdminProducts() {
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -21,7 +19,7 @@ export default function AdminProducts() {
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API}/api/products?page=${page}&limit=20${search ? `&category=${search}` : ''}`);
+      const res = await fetch(`/api/products?page=${page}&limit=20${search ? `&category=${search}` : ''}`);
       const data = await res.json();
       if (data.success) {
         setProducts(data.data);
@@ -41,7 +39,7 @@ export default function AdminProducts() {
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this product?')) return;
     try {
-      const res = await fetch(`${API}/api/admin/products/${id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/admin/products/${id}`, { method: 'DELETE' });
       const data = await res.json();
       if (data.success) {
         toast.success('Product deleted');

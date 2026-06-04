@@ -1,13 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { CheckCircle, MessageCircle, Package, ArrowRight } from 'lucide-react';
 import { CartItem } from '@/lib/cart-context';
-
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 const WA = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '923000000000';
 
 interface OrderData {
@@ -24,6 +22,14 @@ interface OrderData {
 }
 
 export default function OrderConfirmationPage() {
+  return (
+    <Suspense fallback={<div className="min-h-[60vh] flex items-center justify-center"><div className="w-8 h-8 border-2 border-gold border-t-transparent rounded-full animate-spin" /></div>}>
+      <OrderConfirmationContent />
+    </Suspense>
+  );
+}
+
+function OrderConfirmationContent() {
   const searchParams = useSearchParams();
   const orderId = searchParams.get('id');
   const [order, setOrder] = useState<OrderData | null>(null);
@@ -37,7 +43,7 @@ export default function OrderConfirmationPage() {
     
     const fetchOrder = async () => {
       try {
-        const res = await fetch(`${API}/api/orders/${orderId}`);
+        const res = await fetch(`/api/orders/${orderId}`);
         const data = await res.json();
         if (data.success) {
           setOrder(data.data);

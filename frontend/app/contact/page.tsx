@@ -1,10 +1,18 @@
 'use client';
 
 import { useState } from 'react';
-import { MessageCircle, Instagram, Mail, Send } from 'lucide-react';
-import toast from 'react-hot-toast';
+import { MessageCircle, Mail, Send } from 'lucide-react';
 
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+function InstagramIcon({ size = 20 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+    </svg>
+  );
+}
+import toast from 'react-hot-toast';
 const WA  = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '923000000000';
 const IG  = process.env.NEXT_PUBLIC_INSTAGRAM_HANDLE || 'thegulfedit';
 
@@ -25,7 +33,7 @@ export default function ContactPage() {
     setLoading(true);
 
     try {
-      const res = await fetch(`${API}/api/contact`, {
+      const res = await fetch(`/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -86,7 +94,7 @@ export default function ContactPage() {
               className="flex items-start gap-4 p-6 bg-sand border border-sand-dark hover:border-gold transition-colors group"
             >
               <div className="w-12 h-12 bg-cream rounded-full flex items-center justify-center text-gold flex-shrink-0">
-                <Instagram size={20} strokeWidth={1.5} />
+                <InstagramIcon size={20} />
               </div>
               <div>
                 <h3 className="font-body text-base font-medium text-ink mb-1 group-hover:text-gold transition-colors">Instagram</h3>

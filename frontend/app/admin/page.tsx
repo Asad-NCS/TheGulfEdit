@@ -4,8 +4,6 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ShoppingCart, Package, Mail, TrendingUp } from 'lucide-react';
 
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
     orders: 0,
@@ -21,9 +19,9 @@ export default function AdminDashboard() {
     const fetchStats = async () => {
       try {
         const [ordersRes, productsRes, contactsRes] = await Promise.all([
-          fetch(`${API}/api/orders?limit=1000`),
-          fetch(`${API}/api/products?limit=1`),
-          fetch(`${API}/api/contact`) // Requires admin but we assume server.js allows it or we skip it for now
+          fetch(`/api/orders?limit=1000`),
+          fetch(`/api/products?limit=1`),
+          fetch(`/api/contact`) // Requires admin but we assume server.js allows it or we skip it for now
         ]);
 
         const ordersData = await ordersRes.json();

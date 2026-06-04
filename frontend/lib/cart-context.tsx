@@ -46,7 +46,6 @@ interface CartContextValue {
 // ── Context ──────────────────────────────────────────────────────────────────
 const CartContext = createContext<CartContextValue | null>(null);
 
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 const COOKIE_KEY = 'gulf_edit_session';
 
 // ── Provider ─────────────────────────────────────────────────────────────────
@@ -70,7 +69,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     if (!sessionId) return;
     try {
       setLoading(true);
-      const res  = await fetch(`${API}/api/cart/${sessionId}`, { credentials: 'include' });
+      const res  = await fetch(`/api/cart/${sessionId}`, { credentials: 'include' });
       const data = await res.json();
       if (data.success) setCart(data.data);
     } catch (err) {
@@ -97,7 +96,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     quantity?: number;
   }) => {
     if (!sessionId) return;
-    const res = await fetch(`${API}/api/cart/${sessionId}`, {
+    const res = await fetch(`/api/cart/${sessionId}`, {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -110,7 +109,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const updateItem = async (itemId: string, quantity: number) => {
     if (!sessionId) return;
-    const res = await fetch(`${API}/api/cart/${sessionId}/${itemId}`, {
+    const res = await fetch(`/api/cart/${sessionId}/${itemId}`, {
       method:  'PUT',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -123,7 +122,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const removeItem = async (itemId: string) => {
     if (!sessionId) return;
-    const res = await fetch(`${API}/api/cart/${sessionId}/${itemId}`, {
+    const res = await fetch(`/api/cart/${sessionId}/${itemId}`, {
       method: 'DELETE',
       credentials: 'include',
     });

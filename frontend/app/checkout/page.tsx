@@ -6,8 +6,6 @@ import Image from 'next/image';
 import toast from 'react-hot-toast';
 import { useCart } from '@/lib/cart-context';
 import { Lock, Truck } from 'lucide-react';
-
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 const CITIES = ['Karachi', 'Lahore', 'Islamabad', 'Rawalpindi', 'Peshawar', 'Quetta', 'Other'];
 
 export default function CheckoutPage() {
@@ -47,7 +45,7 @@ export default function CheckoutPage() {
     setLoading(true);
 
     try {
-      const res = await fetch(`${API}/api/orders`, {
+      const res = await fetch(`/api/orders`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -1,16 +1,24 @@
 import ProductCard, { type Product } from '@/components/ProductCard';
+import connectDB from '@/lib/db';
+import ProductModel from '@/lib/models/Product';
 
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+export const revalidate = 300; // ISR: re-validate every 5 minutes
 
 async function getFeaturedProducts(): Promise<Product[]> {
   try {
-    const res = await fetch(`${API}/api/products/featured`, {
-      next: { revalidate: 300 }, // ISR: re-fetch every 5 minutes
-    });
-    if (!res.ok) return [];
-    const data = await res.json();
-    return data.success ? data.data.slice(0, 6) : [];
-  } catch {
+    await connectDB();
+    const products = await ProductModel.find({ 
+      featured: true,
+      'sizes.stock': { $gt: 0 } 
+    })
+    .sort({ createdAt: -1 })
+    .limit(6)
+    .lean();
+
+    // Mongoose documents need to be serialized properly to pass to Client Components
+    return JSON.parse(JSON.stringify(products));
+  } catch (error) {
+    console.error('Failed to fetch featured products:', error);
     return [];
   }
 }

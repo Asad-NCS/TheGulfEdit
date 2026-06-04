@@ -1,12 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { Search, Package, Truck, CheckCircle, ExternalLink, Clock } from 'lucide-react';
+import { Search, Package, Truck, CheckCircle, ExternalLink, Clock, X } from 'lucide-react';
 import { CartItem } from '@/lib/cart-context';
-
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 interface OrderTracking {
   orderId: string;
@@ -37,6 +35,14 @@ const STATUS_STEPS = [
 ];
 
 export default function TrackOrderPage() {
+  return (
+    <Suspense fallback={<div className="min-h-[60vh] flex items-center justify-center"><div className="w-8 h-8 border-2 border-gold border-t-transparent rounded-full animate-spin" /></div>}>
+      <TrackOrderContent />
+    </Suspense>
+  );
+}
+
+function TrackOrderContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const initialId = searchParams.get('id') || '';
@@ -52,7 +58,7 @@ export default function TrackOrderPage() {
     setError('');
     setOrder(null);
     try {
-      const res = await fetch(`${API}/api/orders/track/${id}`);
+      const res = await fetch(`/api/orders/track/${id}`);
       const data = await res.json();
       if (data.success) {
         setOrder(data.data);

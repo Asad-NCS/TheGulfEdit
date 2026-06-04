@@ -76,9 +76,9 @@
            hover:shadow-[0_8px_32px_rgba(26,22,16,0.10)];
   }
 
-  /* Product card */
+  /* Product card — NOTE: add 'group' class directly in JSX */
   .product-card {
-    @apply group relative bg-cream overflow-hidden cursor-pointer
+    @apply relative bg-cream overflow-hidden cursor-pointer
            border border-sand-dark
            transition-all duration-300
            hover:shadow-[0_12px_40px_rgba(26,22,16,0.12)]

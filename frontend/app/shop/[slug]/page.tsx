@@ -11,8 +11,6 @@ import ProductCard from '@/components/ProductCard';
 import SizeChartModal from '@/components/SizeChartModal';
 import { ProductGridSkeleton } from '@/components/ProductSkeleton';
 
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-
 export default function ProductDetailPage({ params }: { params: { slug: string } }) {
   const router = useRouter();
   const { addItem } = useCart();
@@ -37,7 +35,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`${API}/api/products/${params.slug}`);
+        const res = await fetch(`/api/products/${params.slug}`);
         const data = await res.json();
         if (data.success && data.data) {
           setProduct(data.data);
@@ -46,7 +44,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
           }
           
           // Fetch related
-          const relRes = await fetch(`${API}/api/products?category=${data.data.category}&limit=4`);
+          const relRes = await fetch(`/api/products?category=${data.data.category}&limit=4`);
           const relData = await relRes.json();
           if (relData.success) {
             setRelated(relData.data.filter((p: Product) => p._id !== data.data._id).slice(0, 4));

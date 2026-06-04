@@ -6,8 +6,6 @@ import Cookies from 'js-cookie';
 import { Lock } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-
 export default function AdminLogin() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -18,7 +16,7 @@ export default function AdminLogin() {
     setLoading(true);
 
     try {
-      const res = await fetch(`${API}/api/admin/login`, {
+      const res = await fetch(`/api/admin/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password }),

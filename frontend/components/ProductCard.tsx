@@ -14,11 +14,18 @@ export interface Product {
   name: string;
   brand: string;
   category: string;
+  subcategory?: string;
+  description?: string;
   price_pkr: number;
+  original_price_omr?: number;
   images: string[];
   sizes: { size: string; stock: number }[];
   colors: { name: string; hex: string }[];
+  material?: string;
+  care_instructions?: string;
+  tags?: string[];
   featured: boolean;
+  active?: boolean;
 }
 
 interface ProductCardProps {
@@ -68,7 +75,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05, duration: 0.4, ease: 'easeOut' }}
     >
-      <Link href={`/shop/${product.slug}`} className="product-card block">
+      <Link href={`/shop/${product.slug}`} className="product-card group block">
         {/* Image */}
         <div className="relative aspect-[3/4] overflow-hidden bg-sand">
           <Image

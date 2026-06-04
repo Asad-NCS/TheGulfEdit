@@ -4,8 +4,6 @@ import { useState, useEffect } from 'react';
 import { Eye, Search } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-
 export default function AdminOrders() {
   const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -13,7 +11,7 @@ export default function AdminOrders() {
   const fetchOrders = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API}/api/orders?limit=50`);
+      const res = await fetch(`/api/orders?limit=50`);
       const data = await res.json();
       if (data.success) {
         setOrders(data.data);
@@ -31,7 +29,7 @@ export default function AdminOrders() {
 
   const updateStatus = async (id: string, status: string) => {
     try {
-      const res = await fetch(`${API}/api/admin/orders/${id}/status`, {
+      const res = await fetch(`/api/admin/orders/${id}/status`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status })

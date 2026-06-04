@@ -1,12 +1,10 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { SlidersHorizontal, X, ChevronDown, ChevronUp } from 'lucide-react';
 import ProductCard, { type Product } from '@/components/ProductCard';
 import { ProductGridSkeleton } from '@/components/ProductSkeleton';
-
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 const CATEGORIES = ['women', 'men', 'kids'];
 const BRANDS     = ['Splash', 'Max', 'R&B'];
@@ -30,6 +28,14 @@ const FILTER_SECTIONS: FilterSection[] = [
 ];
 
 export default function ShopPage() {
+  return (
+    <Suspense fallback={<div className="min-h-[60vh] flex items-center justify-center"><div className="w-8 h-8 border-2 border-gold border-t-transparent rounded-full animate-spin" /></div>}>
+      <ShopPageContent />
+    </Suspense>
+  );
+}
+
+function ShopPageContent() {
   const searchParams = useSearchParams();
   const router       = useRouter();
 
@@ -65,7 +71,7 @@ export default function ShopPage() {
       params.set('page',  String(page));
       params.set('limit', '12');
 
-      const res  = await fetch(`${API}/api/products?${params}`);
+      const res  = await fetch(`/api/products?${params}`);
       const data = await res.json();
       if (data.success) {
         setProducts(data.data);
