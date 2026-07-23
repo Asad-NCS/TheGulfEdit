@@ -18,6 +18,7 @@ interface ProductData {
   description: string;
   price_pkr: number | string;
   compare_price_pkr: number | string;
+  original_price_omr: number | string;
   images: string[];
   sizes: ProductSize[];
   colors: ProductColor[];

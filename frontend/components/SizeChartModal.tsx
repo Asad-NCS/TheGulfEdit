@@ -1,7 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-import Image from 'next/image';
 import { X, Ruler } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
