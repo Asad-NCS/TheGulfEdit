@@ -119,17 +119,25 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
               )}
             </>
           ) : (
-            /* Elegant branded placeholder when no real image */
-            <div className="absolute inset-0 bg-sand-dark flex flex-col items-center justify-center">
-              <div className="w-16 h-16 border border-gold/30 flex items-center justify-center mb-3">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="text-ink-light/30">
-                  <rect x="3" y="3" width="18" height="18" rx="1"/>
-                  <circle cx="8.5" cy="8.5" r="1.5"/>
-                  <polyline points="21 15 16 10 5 21"/>
-                </svg>
-              </div>
-              <span className="font-body text-[9px] tracking-[0.2em] uppercase text-ink-light/30">
+            /* Premium branded placeholder — editorial fashion style */
+            <div className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden"
+              style={{ background: 'linear-gradient(160deg, #F0E9DF 0%, #E0D4C4 50%, #D4C4B0 100%)' }}
+            >
+              {/* Subtle grid pattern */}
+              <div className="absolute inset-0" style={{
+                backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(160,140,110,0.12) 39px, rgba(160,140,110,0.12) 40px), repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(160,140,110,0.12) 39px, rgba(160,140,110,0.12) 40px)',
+              }} />
+              {/* Brand initial */}
+              <span className="font-display text-[72px] leading-none text-ink/8 select-none">
+                {product.brand?.charAt(0)}
+              </span>
+              {/* Brand name */}
+              <span className="font-body text-[9px] tracking-[0.3em] uppercase text-ink/25 mt-2">
                 {product.brand}
+              </span>
+              {/* Category */}
+              <span className="absolute bottom-4 left-0 right-0 text-center font-body text-[8px] tracking-[0.2em] uppercase text-ink/20">
+                {product.category}
               </span>
             </div>
           )}

@@ -142,19 +142,15 @@ function BodySilhouette({
     `Z`,
   ].join(' ');
 
-  // ── Callout data ──
-  const callouts = [
-    { key: 'chest', label: 'Chest', value: measurements.chest, y: CHEST_Y,  bodyX: cx - shChest },
-    { key: 'waist', label: 'Waist', value: measurements.waist, y: WAIST_Y,  bodyX: cx - WW      },
-    { key: 'hip',   label: 'Hip',   value: measurements.hip,   y: HIP_Y,    bodyX: cx - HW      },
+  // ── Callout data (numbered markers, no text labels on figure) ──
+  const markers = [
+    { key: 'chest', num: '1', y: CHEST_Y, bodyEdgeX: cx + shChest },
+    { key: 'waist', num: '2', y: WAIST_Y, bodyEdgeX: cx + WW      },
+    { key: 'hip',   num: '3', y: HIP_Y,   bodyEdgeX: cx + HW      },
   ];
 
-  const labelX   = 16;
-  const elbowX   = 104;
-  const dotSize  = 3.5;
-
   return (
-    <svg viewBox="0 0 420 460" className="w-full max-w-[320px] mx-auto" style={{ overflow: 'visible' }}>
+    <svg viewBox="0 0 420 460" className="w-full max-w-[280px] mx-auto" style={{ overflow: 'visible' }}>
       <defs>
         <linearGradient id="figGrad" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%"   stopColor="#E8DDD0" />
@@ -181,64 +177,55 @@ function BodySilhouette({
       <path d={leftBody} fill="url(#figGrad)" stroke="#1A1610" strokeWidth="1.8" strokeLinejoin="round"
         style={{ transition: 'all 0.5s cubic-bezier(0.34,1.2,0.64,1)' }} />
 
-      {/* ── Measurement callouts ── */}
-      {callouts.map((c) => {
-        const isActive = active === c.key;
-        const goldColor = '#C4953A';
-        const inkColor  = '#1A1610';
-        const lineColor = isActive ? goldColor : inkColor;
-        const lineOpacity = isActive ? 1 : 0.28;
+      {/* ── Numbered measurement markers ── */}
+      {markers.map((m) => {
+        const isActive = active === m.key;
+        const gold = '#C4953A';
+        const ink  = '#1A1610';
+        const MARKER_R = 11;
+        const markerX = m.bodyEdgeX + 20;
 
         return (
-          <g key={c.key}
+          <g key={m.key}
             style={{ cursor: 'pointer' }}
-            onMouseEnter={() => onHover(c.key)}
+            onMouseEnter={() => onHover(m.key)}
             onMouseLeave={() => onHover(null)}
           >
-            {/* Horizontal dashed guide line (full width, across body) */}
+            {/* Dashed guide line across body (left edge to marker) */}
             <line
-              x1={labelX + 100} y1={c.y} x2={cx + shChest + 8} y2={c.y}
-              stroke={lineColor} strokeWidth={isActive ? 0.9 : 0.6}
-              strokeDasharray="4 3" opacity={lineOpacity}
+              x1={cx - (m.key === 'chest' ? shChest : m.key === 'waist' ? WW : HW)}
+              y1={m.y} x2={markerX - MARKER_R} y2={m.y}
+              stroke={isActive ? gold : ink}
+              strokeWidth={isActive ? 1 : 0.6}
+              strokeDasharray="4 3"
+              opacity={isActive ? 0.85 : 0.22}
               style={{ transition: 'all 0.25s ease' }}
             />
-            {/* Elbow point */}
+            {/* Short connector line from body edge to marker */}
             <line
-              x1={labelX + 100} y1={c.y} x2={elbowX} y2={c.y}
-              stroke={lineColor} strokeWidth={isActive ? 1.2 : 0.7}
-              opacity={isActive ? 1 : 0.5}
+              x1={m.bodyEdgeX} y1={m.y} x2={markerX - MARKER_R} y2={m.y}
+              stroke={isActive ? gold : ink}
+              strokeWidth={isActive ? 1.5 : 0.8}
+              opacity={isActive ? 1 : 0.4}
               style={{ transition: 'all 0.25s ease' }}
             />
-            {/* Vertical drop to label */}
-            <line
-              x1={elbowX} y1={c.y} x2={elbowX} y2={c.y + 0}
-              stroke={lineColor} strokeWidth="0.7" opacity={isActive ? 0.7 : 0.3}
-            />
-            {/* Dot on body edge */}
-            <circle cx={c.bodyX} cy={c.y} r={isActive ? dotSize + 1 : dotSize}
-              fill={isActive ? goldColor : inkColor}
-              style={{ transition: 'all 0.25s ease' }} />
-
-            {/* Label background */}
-            <rect x={labelX - 2} y={c.y - 16} width={92} height={28}
-              fill={isActive ? goldColor : '#F5F0EA'}
-              rx="2"
+            {/* Numbered circle marker */}
+            <circle
+              cx={markerX} cy={m.y} r={MARKER_R}
+              fill={isActive ? gold : '#F5F0EA'}
+              stroke={isActive ? gold : ink}
+              strokeWidth={isActive ? 0 : 1}
               style={{ transition: 'all 0.25s ease' }}
             />
-            {/* Label text */}
-            <text x={labelX + 2} y={c.y - 6}
-              fontSize="8" fill={isActive ? '#FDFAF6' : '#8C7A5E'}
-              fontFamily="DM Sans, sans-serif" fontWeight="600"
-              letterSpacing="0.12em" textAnchor="start"
+            <text
+              x={markerX} y={m.y + 4}
+              fontSize="11" fontWeight="700"
+              fill={isActive ? '#FDFAF6' : ink}
+              fontFamily="DM Sans, sans-serif"
+              textAnchor="middle"
+              style={{ transition: 'all 0.25s ease', userSelect: 'none' }}
             >
-              {c.label.toUpperCase()}
-            </text>
-            <text x={labelX + 2} y={c.y + 7}
-              fontSize="10.5" fill={isActive ? '#FDFAF6' : '#1A1610'}
-              fontFamily="Cormorant Garamond, serif" fontWeight="600"
-              textAnchor="start"
-            >
-              {c.value}
+              {m.num}
             </text>
           </g>
         );
@@ -246,6 +233,7 @@ function BodySilhouette({
     </svg>
   );
 }
+
 
 // ─── Full size tables ────────────────────────────────────────────────────────
 const TABLE_SECTIONS = [
@@ -306,9 +294,9 @@ export default function SizeGuidePage() {
   const scale      = isWomen ? WOMEN_SCALE[wSize] : MEN_SCALE[mSize];
 
   const measCards = [
-    { key: 'chest', label: 'Chest', value: meas.chest, desc: 'Fullest part of chest, tape horizontal' },
-    { key: 'waist', label: 'Waist', value: meas.waist, desc: 'Narrowest point, keep tape relaxed'      },
-    { key: 'hip',   label: 'Hip',   value: meas.hip,   desc: 'Fullest part of hips and seat'           },
+    { key: 'chest', num: '1', label: 'Chest', value: meas.chest, desc: 'Fullest part of chest, tape horizontal' },
+    { key: 'waist', num: '2', label: 'Waist', value: meas.waist, desc: 'Narrowest point, keep tape relaxed'      },
+    { key: 'hip',   num: '3', label: 'Hip',   value: meas.hip,   desc: 'Fullest part of hips and seat'           },
   ];
 
   return (
@@ -395,15 +383,23 @@ export default function SizeGuidePage() {
                     : 'border-sand-dark bg-cream hover:border-ink/20'
                 }`}
               >
-                <div className="flex items-baseline justify-between gap-4">
-                  <p className={`font-body text-[10px] tracking-[0.22em] uppercase transition-colors ${
-                    active === m.key ? 'text-gold' : 'text-ink-light'
-                  }`}>
-                    {m.label}
-                  </p>
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    {/* Numbered badge matching SVG marker */}
+                    <span className={`w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold font-body shrink-0 transition-all duration-200 ${
+                      active === m.key ? 'bg-gold text-cream' : 'bg-sand border border-sand-dark text-ink'
+                    }`}>
+                      {m.num}
+                    </span>
+                    <p className={`font-body text-[10px] tracking-[0.22em] uppercase transition-colors ${
+                      active === m.key ? 'text-gold' : 'text-ink-light'
+                    }`}>
+                      {m.label}
+                    </p>
+                  </div>
                   <p className="font-display text-3xl text-ink shrink-0">{m.value}</p>
                 </div>
-                <p className="font-body text-xs text-ink-light/55 mt-1.5">{m.desc}</p>
+                <p className="font-body text-xs text-ink-light/55 mt-1.5 pl-10">{m.desc}</p>
               </div>
             ))}
 

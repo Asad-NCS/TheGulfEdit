@@ -1,10 +1,10 @@
 import ProductCard, { type Product } from '@/components/ProductCard';
 import connectDB from '@/lib/db';
 import ProductModel from '@/lib/models/Product';
-
-export const revalidate = 300; // ISR: re-validate every 5 minutes
+import { unstable_noStore as noStore } from 'next/cache';
 
 async function getFeaturedProducts(): Promise<Product[]> {
+  noStore(); // always fetch fresh — no ISR cache
   try {
     await connectDB();
     // Try featured first
