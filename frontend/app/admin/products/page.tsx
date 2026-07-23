@@ -30,7 +30,7 @@ interface ProductData {
 
 const EMPTY_PRODUCT: ProductData = {
   name: '', slug: '', brand: 'Splash', category: 'women', subcategory: '',
-  description: '', price_pkr: '', compare_price_pkr: '',
+  description: '', price_pkr: '', compare_price_pkr: '', original_price_omr: '',
   images: [''],
   sizes: [{ size: 'S', stock: 0 }, { size: 'M', stock: 0 }, { size: 'L', stock: 0 }],
   colors: [{ name: 'Black', hex: '#000000' }],
@@ -89,6 +89,7 @@ export default function AdminProducts() {
       tags: Array.isArray(p.tags) ? p.tags.join(', ') : (p.tags || ''),
       price_pkr: p.price_pkr ?? '',
       compare_price_pkr: p.compare_price_pkr ?? '',
+      original_price_omr: p.original_price_omr ?? '',
       images: p.images?.length ? p.images : [''],
       sizes: p.sizes?.length ? p.sizes : EMPTY_PRODUCT.sizes,
       colors: p.colors?.length ? p.colors : EMPTY_PRODUCT.colors,
@@ -173,6 +174,7 @@ export default function AdminProducts() {
         slug: form.slug || slugify(form.name + '-' + form.brand),
         price_pkr: Number(form.price_pkr),
         compare_price_pkr: form.compare_price_pkr ? Number(form.compare_price_pkr) : undefined,
+        original_price_omr: form.original_price_omr ? Number(form.original_price_omr) : undefined,
         images: form.images.filter(Boolean),
         tags: form.tags ? form.tags.split(',').map((t) => t.trim()).filter(Boolean) : [],
       };

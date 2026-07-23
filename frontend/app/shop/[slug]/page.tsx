@@ -330,7 +330,8 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
       <SizeChartModal 
         isOpen={chartOpen} 
         onClose={() => setChartOpen(false)} 
-        category={product.category} 
+        category={product.category}
+        subcategory={product.subcategory}
       />
     </div>
   );

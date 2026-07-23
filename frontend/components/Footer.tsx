@@ -17,7 +17,6 @@ const IG  = process.env.NEXT_PUBLIC_INSTAGRAM_HANDLE || 'thegulfedit';
 const FOOTER_LINKS = [
   { label: 'Shop',        href: '/shop' },
   { label: 'About',       href: '/about' },
-  { label: 'Size Guide',  href: '/size-guide' },
   { label: 'Track Order', href: '/track' },
   { label: 'Contact',     href: '/contact' },
   { label: 'Policies',    href: '/policies' },

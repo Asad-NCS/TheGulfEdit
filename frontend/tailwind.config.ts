@@ -9,13 +9,13 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        sand:      '#F5EFE4',
-        'sand-dark': '#EAE0CF',
+        sand:      '#EAE5DC',
+        'sand-dark': '#D8D1C4',
         ink:       '#1A1610',
         'ink-light': '#4A4236',
         gold:      '#C4953A',
         'gold-light': '#E8C97A',
-        cream:     '#FDFAF6',
+        cream:     '#F2EFE9',
         accent:    '#8B3A2A',
       },
       fontFamily: {

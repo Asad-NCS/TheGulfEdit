@@ -231,7 +231,6 @@ export default function Navbar() {
                     { label: 'About', href: '/about' },
                     { label: 'Track Order', href: '/track' },
                     { label: 'Contact', href: '/contact' },
-                    { label: 'Size Guide', href: '/size-guide' },
                   ].map((link) => (
                     <Link
                       key={link.href}

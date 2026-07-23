@@ -91,6 +91,17 @@ function ShopPageContent() {
     fetchProducts();
   }, [fetchProducts]);
 
+  // Sync state when URL params change (e.g. from header navigation)
+  useEffect(() => {
+    setCategory(searchParams.get('category') || '');
+    setBrand(searchParams.get('brand') || '');
+    setSize(searchParams.get('size') || '');
+    setSort(searchParams.get('sort') || 'createdAt_desc');
+    setMinPrice(searchParams.get('minPrice') || '');
+    setMaxPrice(searchParams.get('maxPrice') || '');
+    setSearch(searchParams.get('search') || '');
+  }, [searchParams]);
+
   // Reset to page 1 when filters change
   useEffect(() => { setPage(1); }, [category, brand, size, sort, minPrice, maxPrice, search]);
 
