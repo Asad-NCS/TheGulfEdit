@@ -94,13 +94,16 @@
     @apply font-display text-3xl md:text-4xl lg:text-5xl text-ink leading-tight;
   }
 
-  /* Inputs */
   .input {
     @apply w-full bg-transparent border border-sand-dark
            px-4 py-3 text-sm font-body text-ink
            placeholder:text-ink-light/50
            focus:outline-none focus:border-gold
            transition-colors duration-200;
+  }
+
+  .label-admin {
+    @apply block font-body text-[11px] tracking-wide uppercase text-ink-light mb-2;
   }
 
   .select {

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { MessageCircle, Mail, Send } from 'lucide-react';
+import { MessageCircle, Send } from 'lucide-react';
 
 function InstagramIcon({ size = 20 }: { size?: number }) {
   return (
@@ -47,7 +47,7 @@ export default function ContactPage() {
       } else {
         toast.error(data.message || 'Failed to send message');
       }
-    } catch (err) {
+    } catch {
       toast.error('Something went wrong. Please try again.');
     } finally {
       setLoading(false);

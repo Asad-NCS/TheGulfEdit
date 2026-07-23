@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800">
+  <rect width="600" height="800" fill="#EAE0CF"/>
+  <!-- subtle grain texture lines -->
+  <rect width="600" height="800" fill="url(#grain)" opacity="0.3"/>
+  <defs>
+    <pattern id="grain" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="1" height="1" x="0" y="0" fill="#C4953A" opacity="0.08"/>
+      <rect width="1" height="1" x="2" y="2" fill="#C4953A" opacity="0.04"/>
+    </pattern>
+  </defs>
+  <!-- centered icon group -->
+  <g transform="translate(300,380)">
+    <!-- outer gold frame -->
+    <rect x="-52" y="-64" width="104" height="128" rx="1" fill="none" stroke="#C4953A" stroke-width="1" opacity="0.4"/>
+    <!-- hanger hook -->
+    <path d="M0,-64 Q0,-90 18,-90 Q36,-90 36,-72" fill="none" stroke="#C4953A" stroke-width="1.2" stroke-linecap="round" opacity="0.45"/>
+    <!-- shirt outline -->
+    <path d="M-30,-40 L-52,-20 L-38,-20 L-38,44 L38,44 L38,-20 L52,-20 L30,-40 Q18,-52 0,-52 Q-18,-52 -30,-40 Z"
+          fill="none" stroke="#4A4236" stroke-width="1.2" stroke-linejoin="round" opacity="0.25"/>
+  </g>
+  <!-- brand label -->
+  <text x="300" y="490" font-family="Georgia, serif" font-size="11" fill="#4A4236" opacity="0.35"
+        text-anchor="middle" letter-spacing="5" font-weight="400">THE GULF EDIT</text>
+  <!-- sub label -->
+  <text x="300" y="510" font-family="Arial, sans-serif" font-size="8" fill="#4A4236" opacity="0.2"
+        text-anchor="middle" letter-spacing="3">NO IMAGE YET</text>
+</svg>

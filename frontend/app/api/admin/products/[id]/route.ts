@@ -19,7 +19,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     
     if (!updated) return NextResponse.json({ success: false, message: 'Not found' }, { status: 404 });
     return NextResponse.json({ success: true, data: updated });
-  } catch (error: any) {
+  } catch {
     return NextResponse.json({ success: false, message: 'Server Error' }, { status: 500 });
   }
 }
@@ -33,7 +33,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
     
     if (!deleted) return NextResponse.json({ success: false, message: 'Not found' }, { status: 404 });
     return NextResponse.json({ success: true, data: {} });
-  } catch (error: any) {
+  } catch {
     return NextResponse.json({ success: false, message: 'Server Error' }, { status: 500 });
   }
 }

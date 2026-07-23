@@ -31,7 +31,7 @@ export default function AdminLogin() {
       } else {
         toast.error('Invalid password');
       }
-    } catch (err) {
+    } catch {
       toast.error('Login failed');
     } finally {
       setLoading(false);

@@ -9,7 +9,7 @@ export async function GET() {
     // Only return products that are explicitly featured and have stock in at least one size
     const products = await Product.find({ 
       featured: true,
-      'sizes.stock': { $gt: 0 } 
+      active: { $ne: false }
     })
     .sort({ createdAt: -1 })
     .limit(8);

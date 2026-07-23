@@ -9,7 +9,6 @@ import { useCart } from '@/lib/cart-context';
 import type { Product } from '@/components/ProductCard';
 import ProductCard from '@/components/ProductCard';
 import SizeChartModal from '@/components/SizeChartModal';
-import { ProductGridSkeleton } from '@/components/ProductSkeleton';
 
 export default function ProductDetailPage({ params }: { params: { slug: string } }) {
   const router = useRouter();
@@ -114,9 +113,9 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
     }
   };
 
-  const images = product.images?.length > 0 
-    ? product.images 
-    : [`https://picsum.photos/seed/${product.slug}/600/800`, `https://picsum.photos/seed/${product.slug}-2/600/800`];
+  const images = product.images?.filter(Boolean).length > 0 
+    ? product.images.filter(Boolean)
+    : [];   // no fallback — placeholder div shown below
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
@@ -125,14 +124,27 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
         {/* ── Image Gallery ──────────────────────────────────────────────── */}
         <div className="space-y-4">
           <div className="relative aspect-[3/4] bg-sand border border-sand-dark overflow-hidden">
-            <Image
-              src={images[mainImgIdx]}
-              alt={product.name}
-              fill
-              className="object-cover"
-              priority
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
+            {images.length > 0 ? (
+              <Image
+                src={images[mainImgIdx]}
+                alt={product.name}
+                fill
+                className="object-cover"
+                priority
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            ) : (
+              /* Branded placeholder when no image uploaded */
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-sand-dark">
+                <div className="w-20 h-20 border border-gold/30 flex items-center justify-center mb-4">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="text-ink-light/30">
+                    <rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+                  </svg>
+                </div>
+                <p className="font-body text-[10px] tracking-[0.2em] uppercase text-ink-light/30">{product.brand}</p>
+                <p className="font-body text-[9px] tracking-[0.15em] uppercase text-ink-light/20 mt-1">Photo coming soon</p>
+              </div>
+            )}
           </div>
           {images.length > 1 && (
             <div className="flex gap-4 overflow-x-auto scrollbar-thin pb-2">

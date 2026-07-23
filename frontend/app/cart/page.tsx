@@ -50,8 +50,16 @@ export default function CartPage() {
           <div className="border-t border-sand-dark">
             {cart.items.map((item) => (
               <div key={item._id} className="py-6 border-b border-sand-dark flex gap-6">
-                <Link href={`/shop/${item.slug}`} className="relative w-24 sm:w-32 aspect-[3/4] bg-sand flex-shrink-0">
-                  <Image src={item.image} alt={item.name} fill className="object-cover" />
+                <Link href={`/shop/${item.slug}`} className="relative w-24 sm:w-32 aspect-[3/4] bg-sand-dark flex-shrink-0 border border-sand-dark overflow-hidden block">
+                  {item.image ? (
+                    <Image src={item.image} alt={item.name} fill className="object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="text-ink-light/30">
+                        <rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+                      </svg>
+                    </div>
+                  )}
                 </Link>
                 
                 <div className="flex-1 flex flex-col justify-between">

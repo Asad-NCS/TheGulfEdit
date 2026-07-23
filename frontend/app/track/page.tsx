@@ -65,7 +65,7 @@ function TrackOrderContent() {
       } else {
         setError(data.message || 'Order not found');
       }
-    } catch (err) {
+    } catch {
       setError('Something went wrong. Please try again.');
     } finally {
       setLoading(false);

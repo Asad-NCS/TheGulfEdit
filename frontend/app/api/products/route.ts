@@ -15,13 +15,28 @@ export async function GET(request: Request) {
     const minPrice = searchParams.get('minPrice');
     const maxPrice = searchParams.get('maxPrice');
     const sort = searchParams.get('sort');
+    const search = searchParams.get('search');
+    const featured = searchParams.get('featured');
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '12');
 
-    const query: any = {};
+    const query: any = { active: { $ne: false } };
     if (category) query.category = category;
     if (brand) query.brand = brand;
     if (size) query['sizes.size'] = size;
+    if (featured === 'true') query.featured = true;
+
+    // Full-text search across name, brand, description, subcategory
+    if (search) {
+      const regex = new RegExp(search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+      query.$or = [
+        { name: regex },
+        { brand: regex },
+        { description: regex },
+        { subcategory: regex },
+        { tags: regex },
+      ];
+    }
     
     if (minPrice || maxPrice) {
       query.price_pkr = {};

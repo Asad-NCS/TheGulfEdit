@@ -13,7 +13,7 @@ export default function AdminContacts() {
       const res = await fetch(`/api/contact`);
       const data = await res.json();
       if (data.success) setMessages(data.data);
-    } catch (err) {
+    } catch {
       toast.error('Failed to load messages');
     } finally {
       setLoading(false);
@@ -32,7 +32,7 @@ export default function AdminContacts() {
         body: JSON.stringify({ read })
       });
       if (res.ok) fetchMessages();
-    } catch (err) {
+    } catch {
       toast.error('Update failed');
     }
   };

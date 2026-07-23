@@ -46,6 +46,7 @@ function ShopPageContent() {
   const [sort,        setSort]        = useState(searchParams.get('sort')     || 'createdAt_desc');
   const [minPrice,    setMinPrice]    = useState(searchParams.get('minPrice') || '');
   const [maxPrice,    setMaxPrice]    = useState(searchParams.get('maxPrice') || '');
+  const [search,      setSearch]      = useState(searchParams.get('search')   || '');
   const [page,        setPage]        = useState(1);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -68,6 +69,7 @@ function ShopPageContent() {
       if (sort)     params.set('sort', sort);
       if (minPrice) params.set('minPrice', minPrice);
       if (maxPrice) params.set('maxPrice', maxPrice);
+      if (search)   params.set('search', search);
       params.set('page',  String(page));
       params.set('limit', '12');
 
@@ -83,22 +85,22 @@ function ShopPageContent() {
     } finally {
       setLoading(false);
     }
-  }, [category, brand, size, sort, minPrice, maxPrice, page]);
+  }, [category, brand, size, sort, minPrice, maxPrice, search, page]);
 
   useEffect(() => {
     fetchProducts();
   }, [fetchProducts]);
 
   // Reset to page 1 when filters change
-  useEffect(() => { setPage(1); }, [category, brand, size, sort, minPrice, maxPrice]);
+  useEffect(() => { setPage(1); }, [category, brand, size, sort, minPrice, maxPrice, search]);
 
   const clearAll = () => {
     setCategory(''); setBrand(''); setSize('');
-    setMinPrice(''); setMaxPrice(''); setSort('createdAt_desc');
+    setMinPrice(''); setMaxPrice(''); setSort('createdAt_desc'); setSearch('');
     router.replace('/shop');
   };
 
-  const hasFilters = !!(category || brand || size || minPrice || maxPrice);
+  const hasFilters = !!(category || brand || size || minPrice || maxPrice || search);
 
   const toggleSection = (key: string) =>
     setCollapsed((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -179,9 +181,13 @@ function ShopPageContent() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Page header */}
       <div className="mb-10">
-        <span className="section-label block mb-2">Explore</span>
+        <span className="section-label block mb-2">{search ? 'Search Results' : 'Explore'}</span>
         <h1 className="section-heading">
-          {category ? category.charAt(0).toUpperCase() + category.slice(1) : 'All Products'}
+          {search
+            ? `"${search}"`
+            : category
+            ? category.charAt(0).toUpperCase() + category.slice(1)
+            : 'All Products'}
         </h1>
         {total > 0 && !loading && (
           <p className="font-body text-sm text-ink-light mt-1">{total} item{total !== 1 ? 's' : ''}</p>
@@ -223,6 +229,7 @@ function ShopPageContent() {
                 category && { label: category, clear: () => setCategory('') },
                 brand    && { label: brand,    clear: () => setBrand('') },
                 size     && { label: size,     clear: () => setSize('') },
+                search   && { label: `"${search}"`, clear: () => setSearch('') },
               ].filter(Boolean).map((f: unknown) => {
                 const filter = f as { label: string; clear: () => void };
                 return (

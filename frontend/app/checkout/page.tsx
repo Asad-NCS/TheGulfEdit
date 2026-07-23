@@ -92,7 +92,7 @@ export default function CheckoutPage() {
                 </div>
                 <div>
                   <label className="block font-body text-xs text-ink-light mb-1.5 ml-1">Email (Optional)</label>
-                  <input type="email" name="email" value={formData.email} onChange={handleChange} className="input" placeholder="e.g. asad@example.com" />
+                  <input type="email" name="email" value={formData.email} onChange={handleChange} className="input" placeholder="e.g. asad@gmail.com" />
                 </div>
               </div>
             </div>

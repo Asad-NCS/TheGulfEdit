@@ -4,7 +4,7 @@ import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { CheckCircle, MessageCircle, Package, ArrowRight } from 'lucide-react';
+import { CheckCircle, MessageCircle, Package } from 'lucide-react';
 import { CartItem } from '@/lib/cart-context';
 const WA = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '923000000000';
 

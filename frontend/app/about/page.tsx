@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import { ShieldCheck, Truck, Package, ChevronDown } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -58,13 +57,23 @@ export default function AboutPage() {
       
       {/* ── Brand Story ──────────────────────────────────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 mb-24 items-center">
-        <div className="relative aspect-[4/5] bg-sand border border-sand-dark">
-          <Image 
-            src="https://picsum.photos/seed/about-story/800/1000" 
-            alt="The Gulf Edit Story" 
-            fill 
-            className="object-cover grayscale hover:grayscale-0 transition-all duration-700" 
-          />
+        {/* Story image — replace this with a real photo when available */}
+        <div className="relative aspect-[4/5] bg-sand border border-sand-dark overflow-hidden flex flex-col items-center justify-center gap-6">
+          {/* Decorative background pattern */}
+          <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'repeating-linear-gradient(45deg, #C4953A 0, #C4953A 1px, transparent 0, transparent 50%)', backgroundSize: '20px 20px' }} />
+          {/* Center content */}
+          <div className="relative text-center px-8">
+            <div className="w-20 h-20 border border-gold/30 flex items-center justify-center mx-auto mb-6">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.8" className="text-gold/50">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </div>
+            <p className="font-display text-2xl text-ink-light/40 tracking-wide mb-3">The Gulf Edit</p>
+            <p className="font-body text-[10px] tracking-[0.3em] uppercase text-ink-light/25">Add your photo here</p>
+          </div>
+          <p className="relative font-body text-[9px] tracking-[0.2em] uppercase text-ink-light/20 absolute bottom-6">
+            Upload via Admin → About Image
+          </p>
         </div>
         <div>
           <span className="section-label block mb-4">Our Story</span>

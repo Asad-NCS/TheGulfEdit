@@ -14,13 +14,23 @@ export async function PUT(request: Request, { params }: { params: { id: string }
 
   try {
     await connectDB();
-    const { read } = await request.json();
+    const body = await request.json();
+    const updated = await Contact.findByIdAndUpdate(params.id, { read: body.read }, { new: true });
+    if (!updated) return NextResponse.json({ success: false, message: 'Not found' }, { status: 404 });
+    return NextResponse.json({ success: true, data: updated });
+  } catch {
+    return NextResponse.json({ success: false, message: 'Server Error' }, { status: 500 });
+  }
+}
 
-    const message = await Contact.findByIdAndUpdate(params.id, { read }, { new: true });
-    if (!message) return NextResponse.json({ success: false, message: 'Message not found' }, { status: 404 });
+export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+  if (!isAdmin()) return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
 
-    return NextResponse.json({ success: true, data: message });
-  } catch (error: any) {
+  try {
+    await connectDB();
+    await Contact.findByIdAndDelete(params.id);
+    return NextResponse.json({ success: true });
+  } catch {
     return NextResponse.json({ success: false, message: 'Server Error' }, { status: 500 });
   }
 }
