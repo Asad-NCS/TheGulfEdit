@@ -7,15 +7,21 @@ export const revalidate = 300; // ISR: re-validate every 5 minutes
 async function getFeaturedProducts(): Promise<Product[]> {
   try {
     await connectDB();
-    const products = await ProductModel.find({ 
+    // Try featured first
+    let products = await ProductModel.find({
       featured: true,
-      'sizes.stock': { $gt: 0 } 
-    })
-    .sort({ createdAt: -1 })
-    .limit(6)
-    .lean();
+      active: true,
+      'sizes.stock': { $gt: 0 },
+    }).sort({ createdAt: -1 }).limit(6).lean();
 
-    // Mongoose documents need to be serialized properly to pass to Client Components
+    // Fallback: show newest active products if nothing is featured yet
+    if (products.length === 0) {
+      products = await ProductModel.find({
+        active: true,
+        'sizes.stock': { $gt: 0 },
+      }).sort({ createdAt: -1 }).limit(6).lean();
+    }
+
     return JSON.parse(JSON.stringify(products));
   } catch (error) {
     console.error('Failed to fetch featured products:', error);
